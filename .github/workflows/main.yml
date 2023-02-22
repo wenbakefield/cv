@@ -1,10 +1,10 @@
-name: Docs to PDF
-# This workflow is triggered on pushes to the repository.
+name: Convert MD to PDF/HTML
 on:
   push:
     branches:
       - main
-
+    paths:
+      - 'src/'
 jobs:
   converttopdf:
     name: Build PDF
@@ -13,11 +13,16 @@ jobs:
       - uses: actions/checkout@v2
       - uses: baileyjm02/markdown-to-pdf@v1
         with:
-          input_path: src
+          input_dir: src
           output_dir: build
+          images_dir: src/images
+          image_import: ./images
           build_html: true
-          build_pdf: true
-      - uses: actions/upload-artifact@v3.1.2
-        with:
-          name: src
-          path: build
+      - name: Push build
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add src/*.pdf
+          git add src/*.html
+          git commit -m "Upload generated files"
+          git push
