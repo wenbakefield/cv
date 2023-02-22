@@ -12,9 +12,11 @@ jobs:
     steps:
       - uses: baileyjm02/markdown-to-pdf@v1
         with:
-          input_path: master.md
+          input_path: src
           output_dir: build
-          images_dir: images
-          image_import: ./images
           build_html: true
           build_pdf: true
+      - uses: actions/upload-artifact@v3.1.2
+        with:
+          name: src
+          path: build
