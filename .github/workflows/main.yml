@@ -1,10 +1,6 @@
 name: Convert MD to PDF/HTML
 on:
   push:
-    branches:
-      - main
-    paths:
-      - 'src/'
 jobs:
   converttopdf:
     name: Build PDF
